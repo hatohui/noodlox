@@ -30,13 +30,15 @@ const AnimatedTape = ({
     "brightness(120%) saturate(120%)",
   ];
 
-  const filterDuration = 1;
+  const filterDuration = 1.3;
   const borderAnimationDuration = 4;
 
   return (
     <motion.div
-      className={`absolute h-[20px] w-full bg-repeat-x bg-[url('/Landing/caution-tape.jpg')] select-none pointer-events-none ${
-        position === "top" ? "top-0" : "bottom-0"
+      className={`absolute lg:h-[20px] h-[15px] w-full bg-repeat-x bg-[url('/Landing/caution-tape.jpg')] select-none pointer-events-none ${
+        position === "top"
+          ? "top-0 shadow-[0_-2px_20px_4px_rgba(251,191,36,0.8)]"
+          : "bottom-0 shadow-[0_2px_20px_4px_rgba(251,191,36,0.8)]"
       }`}
       initial={{ rotate: 3, zIndex: 10, opacity: 0.8 }}
       animate={!isReady ? false : isHovered ? "hovered" : "idle"}
@@ -56,7 +58,7 @@ const AnimatedTape = ({
           y: (position === "top" ? -50 : 50) + (translateY ?? 0),
           rotate: 5,
           zIndex: 50,
-          backgroundPositionX: "100%",
+          backgroundPositionX: position === "top" ? "100%" : "-100%",
           opacity: 1,
           filter: hoveredFilterArray,
           transition: {

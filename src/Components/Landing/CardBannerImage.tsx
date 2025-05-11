@@ -29,43 +29,47 @@ const CardBannerImage = ({
   const imagePositionDuration = 10;
 
   return (
-    <motion.img
-      src={imgSrc}
-      alt={alt}
-      className={`w-full h-[calc(100%-40px)] relative object-cover pointer-events-none ${className}`}
-      initial={{
-        rotate: 3,
-        opacity: 0.3,
-        zIndex: 0,
-        objectPosition: objectPosFrom,
-      }}
-      animate={isHovered ? "hovered" : ""}
-      variants={{
-        hovered: {
-          scale: 1.2,
-          rotate: 5,
-          opacity: 1.5,
-          y: translateY ?? 0,
-          objectPosition: objectPosTo,
-          transition: {
-            scale: { type: "spring", duration: scaleDuration },
-            opacity: { duration: opacityDuration, ease: "linear" },
-            rotate: {
-              duration: rotateDuration,
+    <>
+      <div className="w-full justify-center lg:h-[calc(100%-40px)] h-[calc(100%-30px)] relative pointer-events-none">
+        <motion.img
+          src={imgSrc}
+          alt={alt}
+          className={`w-full h-full relative object-cover ${className}`}
+          initial={{
+            rotate: 3,
+            filter: "grayscale(100%) brightness(60%)",
+            zIndex: 0,
+            objectPosition: objectPosFrom,
+          }}
+          animate={isHovered ? "hovered" : ""}
+          variants={{
+            hovered: {
+              scale: 1.2,
+              rotate: 5,
+              filter: "grayscale(0) brightness(100%)",
+              y: translateY ?? 0,
+              objectPosition: objectPosTo,
+              transition: {
+                scale: { type: "spring", duration: scaleDuration },
+                filter: { duration: opacityDuration, ease: "linear" },
+                rotate: {
+                  duration: rotateDuration,
+                },
+                objectPosition: {
+                  duration: imagePositionDuration,
+                  ease: "easeIn",
+                },
+                y: {
+                  duration: scaleDuration,
+                  type: "spring",
+                },
+              },
+              zIndex: 50,
             },
-            objectPosition: {
-              duration: imagePositionDuration,
-              ease: "easeIn",
-            },
-            y: {
-              duration: scaleDuration,
-              type: "spring",
-            },
-          },
-          zIndex: 50,
-        },
-      }}
-    />
+          }}
+        />
+      </div>
+    </>
   );
 };
 

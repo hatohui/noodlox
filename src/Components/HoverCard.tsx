@@ -4,7 +4,9 @@ import AnimatedTape from "./Landing/AnimatedTape";
 import CardBannerImage from "./Landing/CardBannerImage";
 
 export type HoverCardProps = {
+  id: "zag" | "hat";
   imgSrc: string;
+  popUpSrc: string;
   alt: string;
   className?: string;
   objectPosFrom: string;
@@ -15,12 +17,14 @@ export type HoverCardProps = {
 };
 
 const HoverCard = ({
+  id,
   imgSrc,
   alt,
   className,
   objectPosFrom,
   objectPosTo,
   onClick,
+  popUpSrc,
   waitTime,
   translateY,
 }: HoverCardProps) => {
@@ -38,24 +42,13 @@ const HoverCard = ({
 
   return (
     <>
-      {/* Black-filter */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none h-screen w-screen bg-black"
-        initial={{ opacity: 0, zIndex: 40 }}
-        animate={isHovered ? "hovered" : "idle"}
-        variants={{
-          idle: {
-            opacity: [0.3, 0.5],
-            transition: {
-              duration: 2,
-              repeat: Infinity,
-              repeatType: "reverse",
-            },
-          },
-          hovered: { opacity: 0.9, zIndex: 30 },
-        }}
-      />
-
+      {/* <motion.img
+        src={popUpSrc}
+        className="absolute mt-3 hidden lg:block bot-0 left-0 lg:top-1/2 lg:left-1/2 transform lg:-translate-x-1/2 lg:-translate-y-1/2 object-cover z-[99] pointer-events-none"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={isHovered ? "hovered" : ""}
+        variants={{ hovered: { scale: 1, opacity: 1 } }}
+      /> */}
       {/* The card */}
       <motion.button
         className="h-[calc(var(--spacing)*20+40px)] w-[calc(100%+40px)] focus:outline-none flex-1 relative select-none"
@@ -99,6 +92,22 @@ const HoverCard = ({
           opacityDuration={opacityDuration}
         />
       </motion.button>
+
+      {/* background filter */}
+      <div
+        className={`absolute animate-pulse top-0 left-0 w-screen h-screen z-40 [mask-image:url('/axiom-pattern.png')] brightness-200 pointer-events-none ${
+          isHovered
+            ? id === "zag"
+              ? "bg-[#bb5a1a]"
+              : "bg-green-600"
+            : "hidden"
+        }`}
+      />
+      <div
+        className={`absolute h-screen w-screen top-0 pointer-events-none z-30  ${
+          isHovered ? "bg-black opacity-96" : ""
+        }`}
+      />
     </>
   );
 };
