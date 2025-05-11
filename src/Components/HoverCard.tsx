@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import AnimatedTape from "./Landing/AnimatedTape";
 import CardBannerImage from "./Landing/CardBannerImage";
 
+export type CardChar = "zag" | "hat";
+
 export type HoverCardProps = {
-  id: "zag" | "hat";
+  id: CardChar;
   imgSrc: string;
-  popUpSrc: string;
   alt: string;
   className?: string;
   objectPosFrom: string;
@@ -24,7 +25,6 @@ const HoverCard = ({
   objectPosFrom,
   objectPosTo,
   onClick,
-  popUpSrc,
   waitTime,
   translateY,
 }: HoverCardProps) => {
@@ -37,7 +37,7 @@ const HoverCard = ({
   }, [waitTime]);
 
   const rotateDuration = 2;
-  const scaleDuration = 0.3;
+  const scaleDuration = 0.5;
   const opacityDuration = 0.1;
 
   return (
@@ -74,6 +74,7 @@ const HoverCard = ({
           className={className}
           imgSrc={imgSrc}
           alt={alt}
+          id={id}
           objectPosFrom={objectPosFrom}
           objectPosTo={objectPosTo}
           isHovered={isHovered}

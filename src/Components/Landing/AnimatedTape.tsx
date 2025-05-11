@@ -64,12 +64,8 @@ const AnimatedTape = ({
           transition: {
             scale: { type: "spring", duration: scaleDuration },
             y: { duration: scaleDuration, type: "spring" },
-            rotate: {
-              duration: rotateDuration,
-            },
-            opacity: {
-              duration: opacityDuration,
-            },
+            rotate: { duration: rotateDuration },
+            opacity: { duration: opacityDuration },
             backgroundPositionX: {
               duration: borderAnimationDuration,
               ease: "linear",
