@@ -7,7 +7,6 @@ const Custom404 = () => {
       <p className="text-xl text-gray-300 mb-6">
         This page is still under construction 🛠️
       </p>
-      <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin mb-6" />
       <Link href="/" passHref>
         <button className="px-6 py-2 bg-white text-black rounded hover:bg-gray-200 transition">
           Return Home

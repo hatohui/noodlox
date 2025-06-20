@@ -1,0 +1,8 @@
+## GET LISTS IN A BOARD
+GET https://api.trello.com/1/boards/{id}/lists?key={apiKey}&token={token}
+Content-Type: 'application/json'
+
+
+# GET CARDS IN A LIST
+GET https://api.trello.com/1/lists/{id}/cards?key={APIKey}&token={APIToken}
+Content-Type: 'application/json'
