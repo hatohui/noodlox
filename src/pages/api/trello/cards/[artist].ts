@@ -8,12 +8,15 @@ import { getTrelloCardsByListId } from "@/services/server/trello/TrelloCardServi
 import { NextApiHandler } from "next";
 
 const handler: NextApiHandler = async (req, res) => {
-  const artist = req.query.artist as Artist;
+  const artist = req.query.artist as Artist | undefined;
 
   switch (req.method) {
     case "GET":
-      const listId =
-        artist === "hatohui" ? HATO_QUEUE_LIST_ID : ZAGVANDR_LIST_ID;
+      const listId = artist
+        ? artist === "hatohui"
+          ? HATO_QUEUE_LIST_ID
+          : ZAGVANDR_LIST_ID
+        : null;
 
       if (!listId) {
         return res.status(404).json({ message: "List Id Missing" });
