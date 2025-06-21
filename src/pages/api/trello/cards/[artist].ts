@@ -1,31 +1,34 @@
-import { HATO_QUEUE_LIST_ID } from "@/constants/server/trello";
+import {
+  HATO_QUEUE_LIST_ID,
+  ZAGVANDR_LIST_ID,
+} from "@/constants/server/trello";
+import { Artist } from "@/Interfaces/Artist";
+import { withErrorHandler } from "@/lib/server";
 import { getTrelloCardsByListId } from "@/services/server/trello/TrelloCardService";
 import { NextApiHandler } from "next";
 
 const handler: NextApiHandler = async (req, res) => {
-  const { artist } = req.query;
+  const artist = req.query.artist as Artist;
 
-  try {
-    switch (req.method) {
-      case "GET":
-        if (!HATO_QUEUE_LIST_ID)
-          throw new Error("HATO_QUEUE_LIST_ID is not defined");
+  switch (req.method) {
+    case "GET":
+      const listId =
+        artist === "hatohui" ? HATO_QUEUE_LIST_ID : ZAGVANDR_LIST_ID;
 
-        const cards = await getTrelloCardsByListId(HATO_QUEUE_LIST_ID);
+      if (!listId) {
+        return res.status(404).json({ message: "List Id Missing" });
+      }
 
-        if (!cards) {
-          res.status(404).json({ message: "No card Found" });
-        }
+      const cards = await getTrelloCardsByListId(listId);
 
-        res.status(200).json({ artist, cards });
-        break;
+      if (!cards) {
+        return res.status(404).json({ message: "No card Found" });
+      }
 
-      default:
-        res.status(405).json({ message: "Method Not Allowed" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
+      return res.status(200).json({ artist, cards });
+    default:
+      res.status(405).json({ message: "Method Not Allowed" });
   }
 };
 
-export default handler;
+export default withErrorHandler(handler);
