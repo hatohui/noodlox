@@ -1,89 +1,57 @@
-import { cn } from "@/lib/utils";
-import React from "react";
-
-export type TimeLineStatus =
-  | "finished"
-  | "working"
-  | "not-started"
-  | "on-hold"
-  | "cancelled";
-
-export type TimeLineCardProps = {
-  date: Date;
-  name: string;
-  status?: TimeLineStatus;
-};
-
-const TimeLineCard = ({ date, name, status }: TimeLineCardProps) => {
-  let statusString;
-  let style;
-
-  switch (status) {
-    case "working":
-      statusString = "Working";
-      style = "text-yellow-600";
-      break;
-    case "finished":
-      statusString = "Finished";
-      style = "text-green-600";
-      break;
-    case "not-started":
-      statusString = "Not Started";
-      style = "text-red-600";
-      break;
-    case "on-hold":
-      statusString = "On Hold";
-      style = "text-gray-600";
-      break;
-    case "cancelled":
-      statusString = "Cancelled";
-      style = "text-red-600";
-      break;
-    default:
-      statusString = "Not Started";
-  }
-
-  return (
-    <div className="flex items-center gap-4">
-      <div className="size-3 rounded-full bg-green-700 animate-pulse" />
-
-      <div className="rounded-lg shadow p-4 flex gap-5">
-        <section>
-          <p className="font-thin text-sm">{date.toLocaleDateString()}</p>
-          <p className="font-bold text-lg">{name}</p>
-        </section>
-
-        <div className="bg-slate-600 w-1" />
-
-        <section className="w-20">
-          <p className="font-medium">Status</p>
-          <p className={cn("font-thin text-sm", style)}>{statusString}</p>
-        </section>
-      </div>
-    </div>
-  );
-};
+"use client";
+import TimeLineCard from "@/components/commission/TimeLineCard";
+import { useQueryUIState } from "@/hooks/useQueryUIState";
+import { useGetCardsByListName } from "@/services/client/Trello/Card/TrelloCardService";
+import { motion, stagger, useAnimate } from "motion/react";
+import React, { useEffect } from "react";
 
 const QueueSection = () => {
+  const query = useGetCardsByListName("working", "hatohui");
+  const { data } = query;
+  const queryUI = useQueryUIState({ query });
+  const [scope, animate] = useAnimate();
+
+  useEffect(() => {
+    if (!scope.current) return;
+
+    animate(
+      "section",
+      { opacity: [0, 1], x: [30, 0] },
+      { delay: stagger(0.1) }
+    );
+  });
+
+  if (queryUI || !data?.cards || !data)
+    return <div className="w-full h-screen">{queryUI}</div>;
+
   return (
-    <div className="h-screen w-screen flex justify-center">
-      <div>
-        <div className="font-bold text-xl pb-2">Jul</div>
-        <div className="flex flex-col gap-3">
-          <div className="absolute h-full w-1 ml-1 bg-black" />
-          <TimeLineCard
-            date={new Date()}
-            name="Sil_15_2501"
-            status="cancelled"
-          />
-          <TimeLineCard
-            date={new Date()}
-            name="Sil_15_2501"
-            status="cancelled"
-          />
-        </div>
+    <motion.div
+      initial={{ opacity: 0, translateX: -30 }}
+      animate={{ opacity: 1, translateX: 0 }}
+      className="flex flex-col gap-2"
+    >
+      <div className="font-bold text-2xl pb-2 ">
+        QUEUE (Bryan is a bitch hehe)
       </div>
-    </div>
+      <div
+        ref={scope}
+        className="flex relative flex-col gap-3 overflow-hidden select-none"
+      >
+        {data.cards.map((card, index) => (
+          <TimeLineCard
+            key={card.id}
+            className={
+              index === 0
+                ? " border-b-emerald-500 bg-blue-50"
+                : "border-b-red-500"
+            }
+            date={card.lastActivity}
+            name={card.name}
+            status={card.status}
+          />
+        ))}
+      </div>
+    </motion.div>
   );
 };
 

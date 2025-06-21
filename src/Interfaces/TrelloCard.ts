@@ -11,7 +11,7 @@ export type TrelloCard = {
     checkItemsEarliestDue: string | null;
     comments: number;
     description: boolean;
-    due: string | null;
+    due: Date | null;
     dueComplete: boolean;
     lastUpdatedByAi: boolean;
     start: string | null;

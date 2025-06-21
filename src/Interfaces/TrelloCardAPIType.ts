@@ -16,6 +16,27 @@ export type GetTrelloCardByListIdResponse = TrelloCard[];
  */
 export type GetTrelloCardByIdResponse = TrelloCard;
 
-export type TrelloCardResponse =
-  | GetTrelloCardByIdResponse
-  | GetTrelloCardByListIdResponse;
+export type GetTrelloCardByListName = {
+  artist: string;
+  cards: TrelloCardDTO[];
+};
+
+export type TrelloCardDTO = {
+  id: string;
+  name: string;
+  desciption: string;
+  completed: boolean;
+  lastActivity: string | null;
+  due: string | null;
+  paid: boolean;
+  status: TimeLineStatus;
+};
+
+export type TrelloListName = "queue" | "working" | "finished";
+
+export type TimeLineStatus =
+  | "finished"
+  | "working"
+  | "not-started"
+  | "on-hold"
+  | "cancelled";
