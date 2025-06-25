@@ -1,7 +1,3 @@
-import {
-  HATO_WORKING_LIST_ID,
-  ZAGVANDR_LIST_ID,
-} from "@/constants/server/trello";
 import { Artist } from "@/Interfaces/Artist";
 import {
   GetTrelloCardByListName,
@@ -12,17 +8,14 @@ import { getTrelloCardsByListId } from "@/services/server/trello/TrelloCardServi
 import { NextApiHandler } from "next";
 import { format } from "date-fns";
 import { getCardStatus } from "@/lib/getCardStatus";
+import { getListIdFromArtist } from "@/lib/getListIdFromArtist";
 
 const handler: NextApiHandler = async (req, res) => {
   const artist = req.query.artist as Artist | undefined;
 
   switch (req.method) {
     case "GET":
-      const listId = artist
-        ? artist === "hatohui"
-          ? HATO_WORKING_LIST_ID
-          : ZAGVANDR_LIST_ID
-        : null;
+      const listId = getListIdFromArtist("working", artist);
 
       if (!listId) {
         return res.status(404).json({ message: "List Id Missing" });
@@ -46,6 +39,8 @@ const handler: NextApiHandler = async (req, res) => {
           paid:
             card.labels.find((label) => label.name === "Paid") !== undefined,
           status: getCardStatus(card.checkItemStates),
+          images: card.cover.scaled,
+          checkItems: card.checklists,
         }));
 
       const toReturn: GetTrelloCardByListName = {

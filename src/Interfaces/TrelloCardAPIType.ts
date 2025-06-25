@@ -1,4 +1,6 @@
 import { TrelloCard } from "@/Interfaces/TrelloCard";
+import { TrelloImage } from "./TrelloImage";
+import { DetailedCheckItem, TrelloCheckItem } from "./TrelloCheckItem";
 
 /**
  * Type definition for the response from the Trello API for a specific card.
@@ -30,6 +32,8 @@ export type TrelloCardDTO = {
   due: string | null;
   paid: boolean;
   status: TimeLineStatus;
+  images: TrelloImage[];
+  checkItems: DetailedCheckItem[];
 };
 
 export type TrelloListName = "queue" | "working" | "finished";

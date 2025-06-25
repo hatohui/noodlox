@@ -46,6 +46,8 @@ const handler: NextApiHandler = async (req, res) => {
           paid:
             card.labels.find((label) => label.name === "Paid") !== undefined,
           status: getCardStatus(card.checkItemStates),
+          images: card.cover.scaled,
+          checkItems: card.checklists,
         }));
 
       const toReturn: GetTrelloCardByListName = {

@@ -1,4 +1,5 @@
-import { TrelloCheckItem } from "./TrelloCheckItem";
+import { DetailedCheckItem, TrelloCheckItem } from "./TrelloCheckItem";
+import { TrelloImage } from "./TrelloImage";
 import { TrelloLabel } from "./TrelloLabel";
 
 export type TrelloCard = {
@@ -66,8 +67,10 @@ export type TrelloCard = {
     size: "normal";
     brightness: "light" | "dark";
     idPlugin: string | null;
+    scaled: TrelloImage[];
   };
   isTemplate: boolean;
   cardRole: string | null;
   mirrorSourceId: string | null;
+  checklists: DetailedCheckItem[];
 };

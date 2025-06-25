@@ -30,9 +30,7 @@ const QueueSection = () => {
       animate={{ opacity: 1, translateX: 0 }}
       className="flex flex-col gap-2"
     >
-      <div className="font-bold text-2xl pb-2 ">
-        QUEUE (Bryan is a bitch hehe)
-      </div>
+      <div className="font-bold text-2xl pb-2 ">QUEUE</div>
       <div
         ref={scope}
         className="flex relative flex-col gap-3 overflow-hidden select-none"
