@@ -1,7 +1,7 @@
 import React from "react";
 
-const CommissionDetail = () => {
+const CommSelection = () => {
   return <div>Comm details</div>;
 };
 
-export default CommissionDetail;
+export default CommSelection;

@@ -1,11 +1,7 @@
 import React from "react";
 
-const CommissionPage = () => {
-  return (
-    <div>
-      <p>Commission</p>
-    </div>
-  );
+const QueueList = () => {
+  return <div>Queue List</div>;
 };
 
-export default CommissionPage;
+export default QueueList;
